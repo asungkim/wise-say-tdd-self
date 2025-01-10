@@ -53,7 +53,7 @@ public class WiseSayingApp {
 
         findWiseSaying.setContent(newContent);
         findWiseSaying.setAuthor(newAuthor);
-        System.out.println("%번 명언이 수정되었습니다.".formatted(id));
+        System.out.println("%d번 명언이 수정되었습니다.".formatted(id));
 
 
     }
