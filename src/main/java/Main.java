@@ -50,8 +50,36 @@ public class Main {
 
                 if (isDeleted) {
                     System.out.println("%d번 명언이 삭제되었습니다.".formatted(id));
+                } else System.out.println("%d번 명언은 존재하지 않습니다.".formatted(id));
+            } else if (cmd.equals("수정")) {
+                int id = Integer.parseInt(cmdBits[1].split("=")[1]);
+
+                int check = -1;
+                for (int i = 0; i < wiseSayings.size(); i++) {
+                    if (wiseSayings.get(i).getId() == id) {
+                        check = i;
+                        break;
+                    }
                 }
-                else System.out.println("%d번 명언은 존재하지 않습니다.".formatted(id));
+
+                if (check == -1) {
+                    System.out.println("%d번 명언은 존재하지 않습니다.".formatted(id));
+                    continue;
+                }
+
+                WiseSaying findWiseSaying = wiseSayings.get(check);
+                if (check != -1) {
+                    System.out.println("명언(기존) : %s".formatted(findWiseSaying.getContent()));
+                    System.out.print("명언 : ");
+                    String newWiseSaying = sc.nextLine().trim();
+
+                    System.out.println("작가(기존) : %s".formatted(findWiseSaying.getAuthor()));
+                    System.out.print("작가 : ");
+                    String newAuthor = sc.nextLine().trim();
+
+                    wiseSayings.remove(check);
+                    wiseSayings.add(new WiseSaying(id, newWiseSaying, newAuthor));
+                }
             }
         }
 
