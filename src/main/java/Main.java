@@ -12,7 +12,12 @@ public class Main {
         int cnt = 1;
         while (true) {
             System.out.print("명령) ");
-            String cmd = sc.nextLine().trim();
+            String s = sc.nextLine().trim();
+
+            String[] cmdBits = s.split("\\?");
+            String cmd = cmdBits[0];
+
+
             if (cmd.equals("종료")) {
                 break;
             } else if (cmd.equals("등록")) {
@@ -23,8 +28,6 @@ public class Main {
 
                 wiseSayings.add(new WiseSaying(cnt, wiseSaying, author));
                 System.out.println("%d번 명언이 등록되었습니다".formatted(cnt++));
-
-
             } else if (cmd.equals("목록")) {
                 System.out.println("번호 / 작가 / 명언");
                 System.out.println("----------------------");
@@ -33,7 +36,25 @@ public class Main {
                     WiseSaying wiseSaying = wiseSayings.get(i);
                     System.out.println("%d / %s / %s".formatted(wiseSaying.getId(), wiseSaying.getContent(), wiseSaying.getAuthor()));
                 }
+            } else if (cmd.equals("삭제")) {
+                int id = Integer.parseInt(cmdBits[1].split("=")[1]);
+
+                boolean isDeleted = false;
+                for (int i = 0; i < wiseSayings.size(); i++) {
+                    if (wiseSayings.get(i).getId() == id) {
+                        wiseSayings.remove(i);
+                        isDeleted = true;
+                        break;
+                    }
+                }
+
+                if (isDeleted) {
+                    System.out.println("%d번 명언이 삭제되었습니다.".formatted(id));
+                }
+                else System.out.println("%d번 명언은 존재하지 않습니다.".formatted(id));
             }
         }
+
+
     }
 }
