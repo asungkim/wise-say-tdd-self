@@ -65,7 +65,10 @@ public class WiseSayingApp {
 
         if (isExist == null) {
             System.out.println("%d번 명언은 존재하지 않습니다.".formatted(id));
-        } else System.out.println("%d번 명언이 삭제되었습니다.".formatted(id));
+        }
+
+        wiseSayings.remove(isExist);
+        System.out.println("%d번 명언이 삭제되었습니다.".formatted(id));
     }
 
     private void printWiseSayings() {
