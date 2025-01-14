@@ -1,20 +1,17 @@
 package domain.wiseSaying;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class WiseSayingApp {
     private final Scanner sc;
-    private int lastId;
-    private List<WiseSaying> wiseSayingList;
+    private WiseSayingController wiseSayingController;
+    private SystemController systemController;
 
     public WiseSayingApp(Scanner sc) {
         this.sc = sc;
-        this.lastId = 0;
-        wiseSayingList = new ArrayList<>();
+        this.wiseSayingController = new WiseSayingController(sc);
+        this.systemController = new SystemController();
     }
-
 
 
     public void run() {
@@ -27,86 +24,16 @@ public class WiseSayingApp {
             String[] cmdBits = cmd.split("\\?");
             String actionName = cmdBits[0];
 
-
             switch (actionName) {
-                case "종료" -> {
-                    System.out.println("프로그램을 종료합니다.");
-                    return;
-                }
-                case "등록" -> registerWiseSaying();
-                case "목록" -> printWiseSayings();
-                case "삭제" -> deleteWiseSaying(cmdBits);
-                case "수정" -> editWiseSaying(cmdBits);
+                case "종료" -> systemController.exit();
+                case "등록" -> wiseSayingController.actionWrite();
+                case "목록" -> wiseSayingController.actionPrint();
+                case "삭제" -> wiseSayingController.actionDelete(cmdBits);
+                case "수정" -> wiseSayingController.actionModify(cmdBits);
                 default -> System.out.println("알 수 없는 명령입니다.");
             }
         }
     }
 
-    private void editWiseSaying(String[] cmdBits) {
-        int id = Integer.parseInt(cmdBits[1].split("=")[1]);
 
-        WiseSaying findWiseSaying = findWiseSayingById(id);
-
-        if (findWiseSaying == null) {
-            System.out.println("%d번 명언은 존재하지 않습니다.".formatted(id));
-            return;
-        }
-
-        System.out.println("명언(기존) : %s".formatted(findWiseSaying.getContent()));
-        System.out.print("명언 : ");
-        String newContent = sc.nextLine().trim();
-
-        System.out.println("작가(기존) : %s".formatted(findWiseSaying.getAuthor()));
-        System.out.print("작가 : ");
-        String newAuthor = sc.nextLine().trim();
-
-        findWiseSaying.setContent(newContent);
-        findWiseSaying.setAuthor(newAuthor);
-        System.out.println("%d번 명언이 수정되었습니다.".formatted(id));
-
-
-    }
-
-    private void deleteWiseSaying(String[] cmdBits) {
-        int id = Integer.parseInt(cmdBits[1].split("=")[1]);
-
-        WiseSaying findWiseSaying = findWiseSayingById(id);
-
-        if (findWiseSaying == null) {
-            System.out.println("%d번 명언은 존재하지 않습니다.".formatted(id));
-        }
-
-        wiseSayingList.remove(findWiseSaying);
-        System.out.println("%d번 명언이 삭제되었습니다.".formatted(id));
-    }
-
-    private void printWiseSayings() {
-        System.out.println("번호 / 작가 / 명언");
-        System.out.println("----------------------");
-
-        for (int i = wiseSayingList.size() - 1; i >= 0; i--) {
-            WiseSaying wiseSaying = wiseSayingList.get(i);
-            System.out.println("%d / %s / %s".formatted(wiseSaying.getId(), wiseSaying.getContent(), wiseSaying.getAuthor()));
-        }
-    }
-
-    private void registerWiseSaying() {
-        System.out.print("명언 : ");
-        String wiseSaying = sc.nextLine().trim();
-        System.out.print("작가 : ");
-        String author = sc.nextLine().trim();
-
-        wiseSayingList.add(new WiseSaying(++lastId, wiseSaying, author));
-        System.out.println("%d번 명언이 등록되었습니다".formatted(lastId));
-    }
-
-    private WiseSaying findWiseSayingById(int id) {
-        for (int i = 0; i < wiseSayingList.size(); i++) {
-            if (wiseSayingList.get(i).getId() == id) {
-                return wiseSayingList.get(i);
-            }
-        }
-
-        return null;
-    }
 }
