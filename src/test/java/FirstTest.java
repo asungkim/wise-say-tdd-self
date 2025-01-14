@@ -11,4 +11,16 @@ public class FirstTest {
         assertThat(1).isEqualTo(1);
     }
 
+    @Test
+    @DisplayName("명언 종료")
+    void t2() {
+        String out = TestBot.run("""
+                등록
+                명언1
+                작가1
+                """);
+
+        assertThat(out)
+                .contains("명령)");
+    }
 }

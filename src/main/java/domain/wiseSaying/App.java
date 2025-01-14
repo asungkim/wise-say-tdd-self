@@ -2,12 +2,12 @@ package domain.wiseSaying;
 
 import java.util.Scanner;
 
-public class WiseSayingApp {
+public class App {
     private final Scanner sc;
     private WiseSayingController wiseSayingController;
     private SystemController systemController;
 
-    public WiseSayingApp(Scanner sc) {
+    public App(Scanner sc) {
         this.sc = sc;
         this.wiseSayingController = new WiseSayingController(sc);
         this.systemController = new SystemController();
@@ -25,15 +25,21 @@ public class WiseSayingApp {
             String actionName = cmdBits[0];
 
             switch (actionName) {
-                case "종료" -> systemController.exit();
+                case "종료" -> {
+                    systemController.exit();
+                    return;
+                }
                 case "등록" -> wiseSayingController.actionWrite();
-                case "목록" -> wiseSayingController.actionPrint();
-                case "삭제" -> wiseSayingController.actionDelete(cmdBits);
-                case "수정" -> wiseSayingController.actionModify(cmdBits);
+//                case "목록" -> wiseSayingController.actionPrint();
+//                case "삭제" -> wiseSayingController.actionDelete(cmdBits);
+//                case "수정" -> wiseSayingController.actionModify(cmdBits);
                 default -> System.out.println("알 수 없는 명령입니다.");
             }
         }
     }
 
 
+    public void makeSampleData(int cnt) {
+        wiseSayingController.makeSampleData(cnt);
+    }
 }

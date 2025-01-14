@@ -6,9 +6,13 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 public class WiseSaying {
     private int id;
     private String content;
     private String author;
+
+    public WiseSaying(String content, String author) {
+        this.content = content;
+        this.author = author;
+    }
 }
