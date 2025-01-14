@@ -1,16 +1,25 @@
+package domain.wiseSaying;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class WiseSayingApp {
-    private final Scanner sc = new Scanner(System.in);
-    private final List<WiseSaying> wiseSayings = new ArrayList<>();
-    private int cnt = 1;
+    private final Scanner sc;
+    private int lastId;
+    private List<WiseSaying> wiseSayingList;
+
+    public WiseSayingApp(Scanner sc) {
+        this.sc = sc;
+        this.lastId = 0;
+        wiseSayingList = new ArrayList<>();
+    }
+
+
 
     public void run() {
         System.out.println("== 명언 앱 ==");
 
-        label:
         while (true) {
             System.out.print("명령) ");
             String cmd = sc.nextLine().trim();
@@ -61,13 +70,13 @@ public class WiseSayingApp {
     private void deleteWiseSaying(String[] cmdBits) {
         int id = Integer.parseInt(cmdBits[1].split("=")[1]);
 
-        WiseSaying isExist = findWiseSayingById(id);
+        WiseSaying findWiseSaying = findWiseSayingById(id);
 
-        if (isExist == null) {
+        if (findWiseSaying == null) {
             System.out.println("%d번 명언은 존재하지 않습니다.".formatted(id));
         }
 
-        wiseSayings.remove(isExist);
+        wiseSayingList.remove(findWiseSaying);
         System.out.println("%d번 명언이 삭제되었습니다.".formatted(id));
     }
 
@@ -75,8 +84,8 @@ public class WiseSayingApp {
         System.out.println("번호 / 작가 / 명언");
         System.out.println("----------------------");
 
-        for (int i = wiseSayings.size() - 1; i >= 0; i--) {
-            WiseSaying wiseSaying = wiseSayings.get(i);
+        for (int i = wiseSayingList.size() - 1; i >= 0; i--) {
+            WiseSaying wiseSaying = wiseSayingList.get(i);
             System.out.println("%d / %s / %s".formatted(wiseSaying.getId(), wiseSaying.getContent(), wiseSaying.getAuthor()));
         }
     }
@@ -87,14 +96,14 @@ public class WiseSayingApp {
         System.out.print("작가 : ");
         String author = sc.nextLine().trim();
 
-        wiseSayings.add(new WiseSaying(cnt, wiseSaying, author));
-        System.out.println("%d번 명언이 등록되었습니다".formatted(cnt++));
+        wiseSayingList.add(new WiseSaying(++lastId, wiseSaying, author));
+        System.out.println("%d번 명언이 등록되었습니다".formatted(lastId));
     }
 
     private WiseSaying findWiseSayingById(int id) {
-        for (int i = 0; i < wiseSayings.size(); i++) {
-            if (wiseSayings.get(i).getId() == id) {
-                return wiseSayings.get(i);
+        for (int i = 0; i < wiseSayingList.size(); i++) {
+            if (wiseSayingList.get(i).getId() == id) {
+                return wiseSayingList.get(i);
             }
         }
 
