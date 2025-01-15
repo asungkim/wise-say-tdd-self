@@ -69,7 +69,7 @@ public class WiseSayingController {
 
         WiseSaying wiseSaying = wiseSayingService.write(content, author);
 
-        System.out.println("%d번 명언이 등록되었습니다".formatted(wiseSaying.getId()));
+        System.out.println("%d번 명언이 등록되었습니다.".formatted(wiseSaying.getId()));
     }
 
     public void makeSampleData(int cnt) {

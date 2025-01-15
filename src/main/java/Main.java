@@ -1,5 +1,3 @@
-import domain.wiseSaying.App;
-
 import java.util.Scanner;
 
 public class Main {
